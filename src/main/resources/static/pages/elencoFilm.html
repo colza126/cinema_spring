@@ -1,0 +1,39 @@
+<?php
+    // Avvia la sessione
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elenco Film</title>
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Elenco Film</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label for="filtro">Filtro per Genere:</label>
+            <select class="form-control" id="filtro" name="filtro"></select>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row" id="filmContainer"></div>
+
+    <p id="loginErrorMessage" class="mt-3 text-danger"></p>
+</div>
+<script src="../script/Films.js"></script>
+</body>
+</html>
