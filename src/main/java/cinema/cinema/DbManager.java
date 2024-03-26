@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DbManager {
     final String JDBC_URL = "jdbc:mysql://localhost:3306/cinema";
     final String USERNAME = "root";
@@ -48,7 +49,7 @@ public class DbManager {
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
                     if(rs.getInt("account_confermato") == 1){
-                        //
+                        
                         return true;
                     }else{
                         return false;

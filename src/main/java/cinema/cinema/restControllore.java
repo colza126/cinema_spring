@@ -21,13 +21,37 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class restControllore{
     DbManager db = new DbManager();
     String mailUtente;
+    SessionManager sessionManager = new SessionManager();
+    MySession s = new MySession();
+
 
     @GetMapping("/login")
     public boolean logIn(@RequestParam(value = "mail", required = true) String mail,
-    @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response){
+    @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response) throws NoSuchAlgorithmException{
+        if(db.loginUser(mail, pass)){
+            s = sessionManager.session_start(response);
+            mailUtente = mail;
+            return true;
+        }
+
+        if(sessionManager.sessionExist()){
+            return true;
+        }
+        return false;
+    }
+    @GetMapping("/login_sess")
+    public boolean logIn(HttpServletResponse response) throws NoSuchAlgorithmException{
+        if(sessionManager.sessionExist()){
+            return true;
+        }
+        return false;
+    }
+
+    @GetMapping("/logout")
+    public boolean logout(HttpServletResponse response) throws NoSuchAlgorithmException{
         
-        mailUtente = mail;
-        return db.loginUser(mail, pass);
+        sessionManager.session_destroy(response);
+        return true;
     }
     @GetMapping("/getFilms")
     public List<Film> getFilms(){

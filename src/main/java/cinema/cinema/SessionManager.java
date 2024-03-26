@@ -30,7 +30,11 @@ public class SessionManager {
         // se non esiste -> sessione MAI avviata
         if (c == null)
         {
+
+
             String token = generateToken(64);
+
+            sessioni.put(token, new MySession());
 
             return generataSession(token, response);
         }
@@ -93,13 +97,20 @@ public class SessionManager {
     }
 
     //senza passare la request ( la prende da solo dal contesto ) 
-    Cookie getCookie(String name) {
+    private Cookie getCookie(String name) {
+
+        //richiede gli attributi del browser
         HttpServletRequest r = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 
+        //prendo i cookie
         Cookie[] cookies = r.getCookies();
+        //se ci sono cookie
         if (cookies != null) {
+            //scorro i cookie
             for (int i = 0; i < cookies.length; i++) {
+                //se il nome del cookie è uguale a quello che cerco
                 if( cookies[i].getName().equals(name))
+                    //ritorno il cookie
                     return cookies[i];
             }
         }

@@ -1,5 +1,19 @@
 //quando il documento e' pronto
 $(document).ready(function () {
+
+    $.ajax({
+        url: 'login_sess',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            window.location.href = "../pages/elencoFilm.html";
+        },
+        error: function (xhr, status, error) {
+            alert('Errore durante controllo sessione');
+            console.log(xhr.responseText);
+        }
+    });
+
     //mostra il modulo di login
     $('#showLoginForm').click(function () {
         $('#loginForm').show();
