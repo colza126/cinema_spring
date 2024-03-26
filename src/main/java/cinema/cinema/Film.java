@@ -68,4 +68,15 @@ public class Film {
     public void setID(int ID) {
         this.ID = ID;
     }
+    
+@Override
+public String toString() {
+    return "Film{" +
+            "nome='" + nome + '\'' +
+            ", anno_prod=" + anno_prod +
+            ", genere='" + genere + '\'' +
+            ", bio='" + bio + '\'' +
+            ", percorso_loc='" + percorso_loc + '\'' +
+            ", ID=" + ID +
+            '}';
 }

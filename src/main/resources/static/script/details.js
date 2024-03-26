@@ -6,8 +6,8 @@ $(document).ready(function () {
 
     //fai la richiesta ajax per ottenere i dettagli del film
     $.ajax({
-        type: 'POST',
-        url: 'ajax/getFilm.php',
+        type: 'GET',
+        url: '../getFilm',
         dataType: 'json',
         data: { 'id_film': filmID },
         success: function (response) {

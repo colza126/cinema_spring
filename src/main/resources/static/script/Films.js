@@ -17,7 +17,7 @@ function caricaFilm(genere, permessi_admin) {
     // Effettua una richiesta AJAX per ottenere i film
     $.ajax({
         type: 'GET',
-        url: '../getFilm',
+        url: '../getFilms',
         dataType: 'json',
         // Nel caso la risposta abbia successo
         success: function(response) {
@@ -37,8 +37,8 @@ function caricaFilm(genere, permessi_admin) {
                                             Genere: ${film.genere}<br>
                                             Bio: ${film.bio}
                                         </p>
-                                        <a href="dettaglioFilm.php?ID=${encodeURIComponent(film.ID)}" class="btn btn-primary mr-2">Dettagli</a>
-                                        <button id="eliminaFilm${film.ID}" class="btn btn-danger" value="${encodeURIComponent(film.ID)}">Elimina</button>
+                                        <a href="dettaglioFilm.html ?ID=${encodeURIComponent(film.id)}" class="btn btn-primary mr-2">Dettagli</a>
+                                        <button id="eliminaFilm${film.id}" class="btn btn-danger" value="${encodeURIComponent(film.id)}">Elimina</button>
                                     </div>
                                 </div>
                             </div>`;
@@ -61,7 +61,7 @@ function caricaFilm(genere, permessi_admin) {
                                 },
                                 success: function(response) {
                                     if (response.status === 'success') {
-                                        $(`#${film.ID}`).remove();
+                                        $(`#${film.id}`).remove();
                                         alert('Film eliminato!');
                                     } else {
                                         alert('Film non eliminato!');
@@ -81,7 +81,7 @@ function caricaFilm(genere, permessi_admin) {
                                             Genere: ${film.genere}<br>
                                             Bio: ${film.bio}
                                         </p>
-                                        <a href="dettaglioFilm.php?ID=${encodeURIComponent(film.ID)}" class="btn btn-primary">Dettagli</a>
+                                        <a href="dettaglioFilm.html?ID=${encodeURIComponent(film.id)}" class="btn btn-primary">Dettagli</a>
                                     </div>
                                 </div>
                             </div>`;

@@ -29,8 +29,8 @@ public class restControllore{
         return db.getCinema();
     }
     @GetMapping("/getFilm")
-    public Film getFilm(@RequestParam(value = "ID", required = true) int idFilm){
-        return db.getFilm(idFilm);
+    public String getFilm(@RequestParam(value = "id_film", required = true) int idFilm){
+        return db.getFilm(idFilm).toString();
     }
     @GetMapping("/getPermessi")
     public boolean getPermessi(){
