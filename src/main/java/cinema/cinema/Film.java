@@ -79,4 +79,5 @@ public String toString() {
             ", percorso_loc='" + percorso_loc + '\'' +
             ", ID=" + ID +
             '}';
+    }
 }
