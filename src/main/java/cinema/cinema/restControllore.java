@@ -24,9 +24,13 @@ public class restControllore{
         mailUtente = mail;
         return db.loginUser(mail, pass);
     }
-    @GetMapping("/getFilm")
-    public List<Film> getFilm(){
+    @GetMapping("/getFilms")
+    public List<Film> getFilms(){
         return db.getCinema();
+    }
+    @GetMapping("/getFilm")
+    public Film getFilm(@RequestParam(value = "ID", required = true) int idFilm){
+        return db.getFilm(idFilm);
     }
     @GetMapping("/getPermessi")
     public boolean getPermessi(){

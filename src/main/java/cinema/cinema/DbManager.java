@@ -137,5 +137,30 @@ public class DbManager {
         return false;
     }
 
+    public Film getFilm(int id){
+        Film risultato = null;
+
+        String query = "SELECT * FROM film WHERE ID =? ";
+
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            // Esegui la query
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Controlla se ci sono risultati
+                if (rs.next()) {
+                    // Se ci sono risultati, restituisci true
+                    risultato = new Film(rs.getString("nome"), rs.getInt("anno_produzione"), rs.getString("genere"), rs.getString("bio"), rs.getString("percorso_locandina"), rs.getInt("ID"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // In caso di eccezione, restituisci false
+            return null;
+        }
+        return risultato;
+    }
 
 }

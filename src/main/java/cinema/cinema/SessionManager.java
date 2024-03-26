@@ -3,7 +3,6 @@ package cinema.cinema;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.web.context.request.RequestContextHolder;
