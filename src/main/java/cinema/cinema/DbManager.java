@@ -47,7 +47,12 @@ public class DbManager {
                 // Controlla se ci sono risultati
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
-                    return true;
+                    if(rs.getInt("account_confermato") == 1){
+                        //
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             }
         } catch (SQLException e) {

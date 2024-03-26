@@ -1,6 +1,7 @@
 package cinema.cinema;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -11,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
@@ -20,7 +24,8 @@ public class restControllore{
 
     @GetMapping("/login")
     public boolean logIn(@RequestParam(value = "mail", required = true) String mail,
-    @RequestParam(value = "pass", required = true) String pass){
+    @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response){
+        
         mailUtente = mail;
         return db.loginUser(mail, pass);
     }
