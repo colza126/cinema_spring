@@ -109,6 +109,20 @@ var permessi_admin = false;
 
 // Quando il documento è pronto
 $(document).ready(function() {
+
+    $.ajax({
+        url: '../controllaSessione',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            
+        },
+        error: function(xhr, status, error) {
+            window.location.href = '../index.html';
+        }
+
+    });    
+
     // Fai una richiesta AJAX per ottenere i generi
     $.ajax({
         url: '../controllaGeneri',
@@ -152,6 +166,20 @@ $(document).ready(function() {
     $("#filtro").change(function() {
         $("#filmContainer").empty();
         caricaFilm($("#filtro").val(), permessi_admin);
+    });
+
+    $('#logout').click(function() {
+        $.ajax({
+            url: '../logout',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                window.location.href = '../index.html';
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
     });
     
 });

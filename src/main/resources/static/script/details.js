@@ -1,5 +1,19 @@
 //quando il documento e' pronto 
 $(document).ready(function () {
+
+    $.ajax({
+        url: '../controllaSessione',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            
+        },
+        error: function(xhr, status, error) {
+            window.location.href = '../index.html';
+        }
+
+    });
+    
     //ttieni l'ID del film dalla query string dell'url
     var urlParams = new URLSearchParams(window.location.search);
     var filmID = urlParams.get('ID');

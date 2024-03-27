@@ -6,7 +6,9 @@ $(document).ready(function () {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            window.location.href = "../pages/elencoFilm.html";
+
+            if (response)
+                window.location.href = "../pages/elencoFilm.html";
         },
         error: function (xhr, status, error) {
             alert('Errore durante controllo sessione');
@@ -66,6 +68,7 @@ $(document).ready(function () {
             }
         });
 
+        return false;
 
     });
 
@@ -129,6 +132,7 @@ $(document).ready(function () {
                 console.error("Error: " + error);
             }
         });
+        return false;
     });
 
     //Recupero password 
@@ -192,5 +196,6 @@ $(document).ready(function () {
                 }
             });
         }
+        return false;
     });
 });

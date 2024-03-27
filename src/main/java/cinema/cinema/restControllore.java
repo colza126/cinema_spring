@@ -28,20 +28,20 @@ public class restControllore{
     @GetMapping("/login")
     public boolean logIn(@RequestParam(value = "mail", required = true) String mail,
     @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response) throws NoSuchAlgorithmException{
-        if(db.loginUser(mail, pass)){
+        if(db.loginUser(mail, pass)) {
             s = sessionManager.session_start(response);
             mailUtente = mail;
             return true;
         }
 
-        if(sessionManager.sessionExist()){
+        if(sessionManager.sessionExist()) {
             return true;
         }
         return false;
     }
     @GetMapping("/login_sess")
     public boolean logIn(HttpServletResponse response) throws NoSuchAlgorithmException{
-        if(sessionManager.sessionExist()){
+        if(sessionManager.sessionExist()) {
             return true;
         }
         return false;
@@ -53,6 +53,7 @@ public class restControllore{
         sessionManager.session_destroy(response);
         return true;
     }
+    
     @GetMapping("/getFilms")
     public List<Film> getFilms(){
         return db.getCinema();
@@ -64,6 +65,14 @@ public class restControllore{
     @GetMapping("/getPermessi")
     public boolean getPermessi(){
         return db.controllaPermessi(mailUtente);
+    }
+
+    @GetMapping("/controllaSessione")
+    public boolean controllaSessione(){
+        if(sessionManager.sessionExist()) {
+            return true;
+        }
+        return false;
     }
     
     @GetMapping("/controllaGeneri")

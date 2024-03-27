@@ -28,15 +28,14 @@ public class SessionManager {
         // controllare se nei cookie è presente il cookie di sessione ( myCookieName )
         Cookie c = getCookie(myCookieName);
         // se non esiste -> sessione MAI avviata
-        if (c == null)
+        if (c == null || c.getValue() == null || c.getValue().equals(""))
         {
-
 
             String token = generateToken(64);
 
             sessioni.put(token, new MySession());
 
-            return generataSession(token, response);
+            return generateSession(token, response);
         }
         // se esiste -> l'utente ha già (forse..) una sessione
         else
@@ -55,14 +54,14 @@ public class SessionManager {
                 String token = c.getValue();
 
                 // avvio una sessione
-                MySession s = generataSession(token, null);
+                MySession s = generateSession(token, null);
 
                 return s;
             }
         }
     }
 
-    private MySession generataSession(String token, HttpServletResponse response)
+    private MySession generateSession(String token, HttpServletResponse response)
     {
         // avvio una sessione
         MySession s = new MySession();
@@ -93,7 +92,15 @@ public class SessionManager {
     public boolean sessionExist()
     {
         Cookie c = getCookie(myCookieName);
-        return sessioni.containsKey(c.getValue());
+        if (!sessioni.containsKey(c.getValue()) || c == null || c.getValue() == null || c.getValue().equals(""))
+        {
+            sessioni.remove(c.getValue());
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     //senza passare la request ( la prende da solo dal contesto ) 
