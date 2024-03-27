@@ -35,7 +35,7 @@ public class DbManager {
         }
     }
 
-    public boolean loginUser(String mail, String pw) {
+    public MySession loginUser(String mail, String pw) {
         String select = "SELECT * FROM utente WHERE mail = ? AND password = ?";
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
             PreparedStatement stmt = conn.prepareStatement(select)) {
@@ -49,20 +49,26 @@ public class DbManager {
                 if (rs.next()) {
                     // Se ci sono risultati, restituisci true
                     if(rs.getInt("account_confermato") == 1){
-                        
-                        return true;
+                        boolean permessi_admin;
+                        if(rs.getInt("permessi_admin") == 1){
+                            permessi_admin = true;
+                        }else{
+                            permessi_admin = false;
+                        }
+
+                        return new MySession(rs.getInt("ID"), permessi_admin);
                     }else{
-                        return false;
+                        return null;
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             // In caso di eccezione, restituisci false
-            return false;
+            return null;
         }
         // Se non ci sono risultati o in caso di eccezione, restituisci false
-        return false;
+        return null;
     }
 
 

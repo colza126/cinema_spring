@@ -28,7 +28,7 @@ public class restControllore{
     @GetMapping("/login")
     public boolean logIn(@RequestParam(value = "mail", required = true) String mail,
     @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response) throws NoSuchAlgorithmException{
-        if(db.loginUser(mail, pass)) {
+        if(db.loginUser(mail, pass) != null) {
             s = sessionManager.session_start(response);
             mailUtente = mail;
             return true;
@@ -51,6 +51,7 @@ public class restControllore{
     public boolean logout(HttpServletResponse response) throws NoSuchAlgorithmException{
         
         sessionManager.session_destroy(response);
+        
         return true;
     }
     

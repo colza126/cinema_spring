@@ -61,6 +61,44 @@ public class SessionManager {
         }
     }
 
+    public MySession session_start(HttpServletResponse response,MySession s) throws NoSuchAlgorithmException
+    {
+        // controllare se nei cookie è presente il cookie di sessione ( myCookieName )
+        Cookie c = getCookie(myCookieName);
+        // se non esiste -> sessione MAI avviata
+        if (c == null || c.getValue() == null || c.getValue().equals(""))
+        {
+
+            String token = generateToken(64);
+
+            sessioni.put(token, new MySession());
+
+            return generateSession(token, response);
+        }
+        // se esiste -> l'utente ha già (forse..) una sessione
+        else
+        {
+            // la recupero dalla mia hashmap
+            if (sessioni.containsKey(c.getValue()))
+            {
+                return sessioni.get(c.getValue());
+            }
+            // se non la trovo
+            else
+            {
+                // avvio una sesisone
+                // genero un token
+
+                String token = c.getValue();
+
+                // avvio una sessione
+
+                return s;
+            }
+        }
+    }
+
+
     private MySession generateSession(String token, HttpServletResponse response)
     {
         // avvio una sessione
