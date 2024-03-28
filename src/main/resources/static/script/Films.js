@@ -148,12 +148,12 @@ $(document).ready(function() {
     // Fai una richiesta AJAX per controllare i permessi
     $.ajax({
         type: 'GET',
-        url: '../getPermessi',
+        url: '../checkPrivilegi',
         dataType: 'json',
         // Controlla i permessi e nel caso richiama la funzione per caricare i film
         success: function(response) {
-            permessi_admin = response === "true";
-            caricaFilm("Tutti", permessi_admin);
+            
+            caricaFilm("Tutti", response);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.error('Errore nella richiesta AJAX:', textStatus, errorThrown);

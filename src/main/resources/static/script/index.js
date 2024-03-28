@@ -2,11 +2,10 @@
 $(document).ready(function () {
 
     $.ajax({
-        url: 'login_sess',
+        url: 'sess_exist',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-
             if (response)
                 window.location.href = "../pages/elencoFilm.html";
         },

@@ -29,22 +29,23 @@ public class restControllore{
     public boolean logIn(@RequestParam(value = "mail", required = true) String mail,
     @RequestParam(value = "pass", required = true) String pass,HttpServletResponse response) throws NoSuchAlgorithmException{
         if(db.loginUser(mail, pass) != null) {
-            s = sessionManager.session_start(response);
+            s = sessionManager.session_start(response,db.loginUser(mail, pass));
             mailUtente = mail;
             return true;
         }
 
-        if(sessionManager.sessionExist()) {
-            return true;
-        }
         return false;
     }
-    @GetMapping("/login_sess")
+    @GetMapping("/sess_exist")
     public boolean logIn(HttpServletResponse response) throws NoSuchAlgorithmException{
         if(sessionManager.sessionExist()) {
             return true;
         }
         return false;
+    }
+    @GetMapping("/checkPrivilegi")
+    public boolean checkPrivilegi(){
+        return s.permessiAdmin;
     }
 
     @GetMapping("/logout")
