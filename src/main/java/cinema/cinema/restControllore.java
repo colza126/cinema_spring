@@ -22,7 +22,7 @@ public class restControllore{
     DbManager db = new DbManager();
     String mailUtente;
     SessionManager sessionManager = new SessionManager();
-    MySession s = new MySession();
+    MySession s;
 
 
     @GetMapping("/login")
@@ -38,7 +38,7 @@ public class restControllore{
     }
     @GetMapping("/sess_exist")
     public boolean logIn(HttpServletResponse response) throws NoSuchAlgorithmException{
-        if(sessionManager.sessionExist()) {
+        if(s != null) {
             return true;
         }
         return false;
@@ -52,7 +52,7 @@ public class restControllore{
     public boolean logout(HttpServletResponse response) throws NoSuchAlgorithmException{
         
         sessionManager.session_destroy(response);
-        
+        s = null;
         return true;
     }
     
@@ -67,6 +67,10 @@ public class restControllore{
     @GetMapping("/getPermessi")
     public boolean getPermessi(){
         return db.controllaPermessi(mailUtente);
+    }
+    @GetMapping("/cancellaFilm")
+    public boolean delFIlm(@RequestParam(value = "id_film", required = true) int idFilm){
+        return db.eliminaFilm(idFilm);
     }
 
     @GetMapping("/controllaSessione")

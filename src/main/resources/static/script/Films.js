@@ -37,7 +37,7 @@ function caricaFilm(genere, permessi_admin) {
                                             Genere: ${film.genere}<br>
                                             Bio: ${film.bio}
                                         </p>
-                                        <a href="dettaglioFilm.html ?ID=${encodeURIComponent(film.id)}" class="btn btn-primary mr-2">Dettagli</a>
+                                        <a href="dettaglioFilm.html?ID=${encodeURIComponent(film.id)}" class="btn btn-primary mr-2">Dettagli</a>
                                         <button id="eliminaFilm${film.id}" class="btn btn-danger" value="${encodeURIComponent(film.id)}">Elimina</button>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@ function caricaFilm(genere, permessi_admin) {
                             // Effettua una richiesta AJAX per eliminare il film
                             $.ajax({
                                 type: 'POST',
-                                url: 'ajax/cancellaFilm.php',
+                                url: '/cancellaFilm',
                                 data: {
                                     "id_film": id_film
                                 },
@@ -111,11 +111,13 @@ var permessi_admin = false;
 $(document).ready(function() {
 
     $.ajax({
-        url: '../controllaSessione',
+        url: '../sess_exist',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            
+            if(response == false){
+                window.location.href = '../index.html';
+            }
         },
         error: function(xhr, status, error) {
             window.location.href = '../index.html';

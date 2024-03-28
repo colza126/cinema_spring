@@ -175,4 +175,17 @@ public class DbManager {
         return risultato;
     }
 
+    public boolean eliminaFilm(int id_film){
+        String query = "DELETE FROM film WHERE ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id_film);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
