@@ -45,7 +45,7 @@ function caricaFilm(genere, permessi_admin) {
                         // Inserisci il div contenente il film all'interno del container
                         $('#filmContainer').append(filmCard);
                         // Se viene cliccato il tasto per eliminare il film
-                        $(`#eliminaFilm${film.ID}`).click(function(e) {
+                        $(`#eliminaFilm${film.id}`).on("click",function(e) {
                             // Conferma
                             if (!conferma()) {
                                 return;
@@ -54,13 +54,13 @@ function caricaFilm(genere, permessi_admin) {
                             var id_film = $(this).val();
                             // Effettua una richiesta AJAX per eliminare il film
                             $.ajax({
-                                type: 'POST',
+                                type: 'GET',
                                 url: '/cancellaFilm',
                                 data: {
                                     "id_film": id_film
                                 },
                                 success: function(response) {
-                                    if (response.status === 'success') {
+                                    if (response) {
                                         $(`#${film.id}`).remove();
                                         alert('Film eliminato!');
                                     } else {
@@ -90,7 +90,7 @@ function caricaFilm(genere, permessi_admin) {
                 });
                 // Se l'utente ha i permessi admin, visualizza il pulsante per inserire un film
                 if (permessi_admin) {
-                    var bottone = '<div class="col-md-12 mt-4"><a href="inserisci.php" class="btn btn-success btn-block">Inserisci film</a></div>';
+                    var bottone = '<div class="col-md-12 mt-4"><a href="inserisci.html" class="btn btn-success btn-block">Inserisci film</a></div>';
                     $('#filmContainer').append(bottone);
                 }
             } else {

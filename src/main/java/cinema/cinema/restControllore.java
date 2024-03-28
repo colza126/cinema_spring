@@ -99,6 +99,15 @@ public class restControllore{
         return result;
     }
 
+    @GetMapping("/inserisci")
+    public boolean inserisisci(@RequestParam(value = "titolo", required = true) String titolo,
+    @RequestParam(value = "genere", required = true) String genere,
+    @RequestParam(value = "anno", required = true) int anno,
+    @RequestParam(value = "bio", required = true) String bio,
+    @RequestParam(value = "foto", required = true) String foto){
+        return db.inserisciFilm(titolo, anno, genere, bio, foto);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleException() {

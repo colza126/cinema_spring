@@ -188,4 +188,22 @@ public class DbManager {
             return false;
         }
     }
+
+    public boolean inserisciFilm(String nome, int anno_produzione, String genere, String bio, String percorso_locandina){
+        String query = "INSERT INTO film ( nome, anno_produzione, genere, bio, percorso_locandina) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nome);
+            stmt.setInt(2, anno_produzione);
+            stmt.setString(3, genere);
+            stmt.setString(4, bio);
+            stmt.setString(5, percorso_locandina);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

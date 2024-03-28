@@ -1,6 +1,20 @@
 
 //quando il documento e' pronto
 $(document).ready(function () {
+    $.ajax({
+        url: '/sess_exist',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if(response == false){
+                window.location.href = '../index.html';
+            }
+        },
+        error: function(xhr, status, error) {
+            window.location.href = '../index.html';
+        }
+
+    });    
     //nel caso in cui il form venga inviato
     $('#filmForm').submit(function (e) {
         e.preventDefault();
@@ -14,8 +28,8 @@ $(document).ready(function () {
 
         //inserisco i valori nel database tramite ajax
         $.ajax({
-            url: 'ajax/inserisci_film.php',
-            type: 'POST',
+            url: '/inserisci',
+            type: 'GET',
             data: {
                 'titolo': titolo,
                 'genere': genere,
@@ -26,7 +40,7 @@ $(document).ready(function () {
             //notifico successo o errori
             success: function (response) {
 
-                alert('Film inserito con successo!');
+                window.location.href = '../pages/elencofilm.html';
                 // Aggiungi qui eventuali azioni da eseguire dopo l'inserimento del film
             },
             error: function (xhr, status, error) {
@@ -44,17 +58,22 @@ $(document).ready(function () {
         option.text = testo;
         select.add(option);
     }
-    //controllo i generi e li carico 
     $.ajax({
-        url: 'ajax/controllaGeneri.php',
-        type: 'POST',
+        url: '../controllaGeneri',
+        type: 'GET',
         dataType: 'json',
-        success: function (response) {
-            $.each(response.generi, function (index, genere) {
+        success: function(response) {
+            // Aggiungi l'opzione "Tutti"
+    
+            // Itera attraverso ogni oggetto genere nella lista
+            $.each(response.generi, function(index, item) {
+                // Accedi al campo "genere" di ciascun oggetto
+                var genere = item.genere;
+                // Aggiungi l'opzione al filtro
                 aggiungiOpzione("genere", genere, genere);
             });
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
             alert('Si è verificato un errore durante il caricamento dei generi.');
             console.log(xhr.responseText);
         }
