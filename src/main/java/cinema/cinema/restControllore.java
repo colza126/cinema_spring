@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +24,7 @@ public class restControllore{
     String mailUtente;
     SessionManager sessionManager = new SessionManager();
     MySession s;
+    MailSender mailSender = new MailSender();
 
 
     @GetMapping("/login")
@@ -100,6 +100,14 @@ public class restControllore{
 
         return result;
     }
+    
+    @PostMapping("/confermaToken")
+    public String confermaToken(@RequestParam(value = "token", required = true) String token)
+    {
+        boolean result = db.confirmToken(token);
+        
+        return (result) ? "Account attivato con successo" : "Token non valido";
+    }
 
     @GetMapping("/inserisci")
     public boolean inserisisci(@RequestParam(value = "titolo", required = true) String titolo,
@@ -144,15 +152,15 @@ public class restControllore{
 
     @PostMapping("/mailConferma")
     public boolean mailConferma(@RequestParam(value = "mail", required = true) String mail,
-    @RequestParam(value = "contenuto", required = true) String pass,HttpServletResponse response)
+    @RequestParam(value = "contenuto", required = true) String contenuto)
     {
-
+        mailSender.sendMail(mail, "Conferma registrazione", contenuto);
         
         return false;
     }
 
     @PostMapping("/checkMail")
-    public boolean checkMail(@RequestParam(value = "mail", required = true) String mail, HttpServletResponse response)
+    public boolean checkMail(@RequestParam(value = "mail", required = true) String mail)
     {
         
         return false;

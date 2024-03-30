@@ -106,7 +106,7 @@ $(document).ready(function () {
                                 url: 'mailConferma',
                                 data: {
                                     mail: mailVal,
-                                    contenuto: "Clicca questo link per confermare la tua registrazione: http://localhost/cinema/paginaConferma.php?token=" + token
+                                    contenuto: "Clicca questo link per confermare la tua registrazione: http://localhost:8080/pages/paginaConferma.html?token=" + token
                                 },
                                 //in caso di successo invia un alert
                                 success: function (response) {

@@ -283,7 +283,7 @@ public class DbManager {
 
     public String getUserToken(String mail)
     {
-        String query = "SELECT token FROM utente WHERE mail = ?";
+        String query = "SELECT token_conferma FROM utente WHERE mail = ?";
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
             PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -291,7 +291,7 @@ public class DbManager {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("token");
+                    return rs.getString("token_conferma");
                 }
             }
         } catch (SQLException e) {
@@ -299,6 +299,33 @@ public class DbManager {
         }
 
         return null;
+    }
+
+    public boolean confirmToken(String token)
+    {
+        String query = "SELECT * FROM utente WHERE token_conferma = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, token);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String updateQuery = "UPDATE utente SET account_confermato = 1 WHERE token_conferma = ?";
+                    PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+                    updateStmt.setString(1, token);
+                    updateStmt.executeUpdate();
+                }
+                else {
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private String generateToken() {
