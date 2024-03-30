@@ -80,15 +80,16 @@ $(document).ready(function () {
         //faccio la richiesta ajax per aggiornare il token
         $.ajax({
             type: 'POST',
-            url: 'ajax/aggiornaToken.php',
+            url: 'aggiornaToken',
             data: {
                 mail: mailVal
             },
             //in caso di successo procedo con la registrazione
             success: function (response) {
+                console.log(response);
                 $.ajax({
                     type: 'POST',
-                    url: 'ajax/registration.php',
+                    url: 'registration',
                     data: {
                         mail: mailVal,
                         password: password
@@ -102,7 +103,7 @@ $(document).ready(function () {
                             //nel caso di conferma invia una mail
                             $.ajax({
                                 type: 'POST',
-                                url: 'ajax/mailConferma.php',
+                                url: 'mailConferma',
                                 data: {
                                     mail: mailVal,
                                     contenuto: "Clicca questo link per confermare la tua registrazione: http://localhost/cinema/paginaConferma.php?token=" + token
@@ -144,7 +145,7 @@ $(document).ready(function () {
             //richiesta per aggiungere il token
             $.ajax({
                 type: 'POST',
-                url: 'ajax/aggiornaToken.php',
+                url: 'aggiornaToken',
                 data: {
                     mail: mailVal
                 },
@@ -152,7 +153,7 @@ $(document).ready(function () {
                 success: function (response) {
                     $.ajax({
                         type: 'POST',
-                        url: 'ajax/checkMail.php',
+                        url: 'checkMail',
                         data: {
                             mail: mailVal
                         },
@@ -163,7 +164,7 @@ $(document).ready(function () {
                                 token = response.token;
                                 $.ajax({
                                     type: 'POST',
-                                    url: 'ajax/mailConferma.php',
+                                    url: 'mailConferma',
                                     data: {
                                         mail: mailVal,
                                         contenuto: "Per recuperare la tua password visita questo link: http://localhost/cinema/recuperoPw.php?token=" + token

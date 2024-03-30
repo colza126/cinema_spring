@@ -206,4 +206,102 @@ public class DbManager {
             return false;
         }
     }
+
+    public boolean updateToken(String mail)
+    {
+        if (!userExists(mail)) {
+            return false;
+        }
+
+        String query = "UPDATE utente SET token = ? WHERE mail = ?";
+        String token = generateToken();
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, token);
+            stmt.setString(2, mail);
+
+            stmt.executeUpdate();
+
+            if (stmt.getUpdateCount() == 0) {
+                return false;
+            }
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean registerUser(String mail, String pass)
+    {
+        if (userExists(mail)) {
+            return false;
+        }
+
+        String query = "INSERT INTO utente (mail, password, permessi_admin, account_confermato, token_conferma) VALUES (?, ?, ?, ?, ?)";
+        String token = generateToken();
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, mail);
+            stmt.setString(2, convertToMD5(pass));
+            stmt.setInt(3, 0);
+            stmt.setInt(4, 0);
+            stmt.setString(5, token);
+
+            stmt.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    private boolean userExists(String mail)
+    {
+        String query = "SELECT * FROM utente WHERE mail = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, mail);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public String getUserToken(String mail)
+    {
+        String query = "SELECT token FROM utente WHERE mail = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, mail);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("token");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private String generateToken() {
+        return convertToMD5("" + System.currentTimeMillis() + Math.random() * 1000);
+    }
 }

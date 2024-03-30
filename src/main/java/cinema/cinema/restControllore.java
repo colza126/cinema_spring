@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -112,5 +114,47 @@ public class restControllore{
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleException() {
         return "Custom error message";
+    }
+
+    @PostMapping("/aggiornaToken")
+    public boolean aggiornaToken(@RequestParam(value = "mail", required = true) String mail)
+    {
+        boolean result = db.updateToken(mail);
+        
+        return result;
+    }
+    
+    @PostMapping("/registration")
+    public HashMap<String, String> registration(@RequestParam(value = "mail", required = true) String mail,
+    @RequestParam(value = "password", required = true) String pass)
+    {
+        boolean registrationResult = db.registerUser(mail, pass);
+        HashMap<String, String> data = new HashMap<>();
+
+        if (registrationResult) {
+            data.put("status", "success");
+            data.put("token", db.getUserToken(mail));
+        } else {
+            data.put("status", "error");
+            data.put("message", "L'utente potrebbe essere già registrato. Ritenta con un'altra email.");
+        }
+
+        return data;
+    }
+
+    @PostMapping("/mailConferma")
+    public boolean mailConferma(@RequestParam(value = "mail", required = true) String mail,
+    @RequestParam(value = "contenuto", required = true) String pass,HttpServletResponse response)
+    {
+
+        
+        return false;
+    }
+
+    @PostMapping("/checkMail")
+    public boolean checkMail(@RequestParam(value = "mail", required = true) String mail, HttpServletResponse response)
+    {
+        
+        return false;
     }
 }
