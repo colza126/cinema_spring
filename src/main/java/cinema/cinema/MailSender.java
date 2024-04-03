@@ -7,8 +7,8 @@ import java.util.Properties;
 
 public class MailSender {
     private final String HOST = "smtp.gmail.com";
-    private final String MAIL = "";
-    private final String PASSWORD = "";
+    private final String MAIL = "maxboxex0909@gmail.com";
+    private final String PASSWORD = "thqwczobhyckisje";
     private Properties props = new Properties();
 
     public MailSender() {
