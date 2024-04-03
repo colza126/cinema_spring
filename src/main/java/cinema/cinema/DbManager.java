@@ -213,7 +213,7 @@ public class DbManager {
             return false;
         }
 
-        String query = "UPDATE utente SET token = ? WHERE mail = ?";
+        String query = "UPDATE utente SET token_conferma = ? WHERE mail = ?";
         String token = generateToken();
 
         try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
@@ -261,7 +261,7 @@ public class DbManager {
 
     }
 
-    private boolean userExists(String mail)
+    public boolean userExists(String mail)
     {
         String query = "SELECT * FROM utente WHERE mail = ?";
 

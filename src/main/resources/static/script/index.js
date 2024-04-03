@@ -160,14 +160,14 @@ $(document).ready(function () {
                         //se la mail esiste invia una mail di recupero password
                         success: function (response) {
                             alert(response.exists);
-                            if (response.exists === 'true') {
+                            if (response === true) {
                                 token = response.token;
                                 $.ajax({
                                     type: 'POST',
                                     url: 'mailConferma',
                                     data: {
                                         mail: mailVal,
-                                        contenuto: "Per recuperare la tua password visita questo link: http://localhost/cinema/recuperoPw.php?token=" + token
+                                        contenuto: "Per recuperare la tua password visita questo link: http://localhost:8080/pages/recuperoPw.php?token=" + token
                                     },
                                     //notifico l'invio degli errori
                                     success: function (response) {

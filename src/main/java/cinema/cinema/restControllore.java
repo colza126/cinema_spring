@@ -99,6 +99,7 @@ public class restControllore{
         result.put("generi", generiList);
 
         return result;
+        
     }
     
     @PostMapping("/confermaToken")
@@ -162,7 +163,6 @@ public class restControllore{
     @PostMapping("/checkMail")
     public boolean checkMail(@RequestParam(value = "mail", required = true) String mail)
     {
-        
-        return false;
+        return db.userExists(mail);
     }
 }
