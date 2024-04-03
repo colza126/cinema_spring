@@ -2,6 +2,7 @@ package cinema.cinema;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -164,5 +165,14 @@ public class restControllore{
     public boolean checkMail(@RequestParam(value = "mail", required = true) String mail)
     {
         return db.userExists(mail);
+    }
+    @PostMapping("/getToken")
+    public String getToken(@RequestParam(value = "mail", required = true) String mail)
+    {
+        return db.getToken(mail);
+    }
+    @PostMapping("/recoveryPW")
+    public boolean reco(@RequestParam(value = "password", required = true) String password,@RequestParam(value = "token", required = true) String token) throws SQLException{
+        return db.modificaPassword(password, token);
     }
 }

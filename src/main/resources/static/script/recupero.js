@@ -9,14 +9,17 @@ $(document).ready(function() {
         var newPassword =  $("#password").val();
         //richiedo una modifica della password
         $.ajax({
-            url: 'ajax/modificaPassword.php',
+            url: '../recoveryPW',
             type: 'POST',
             data: {
                 token: token,
-                new_password: newPassword
+                password: newPassword
             },
             success: function(response) {
-                alert(response);
+                console.log(response)
+                if(response == true){
+                    window.location.href="../index.html";
+                }
             }
         });
     });

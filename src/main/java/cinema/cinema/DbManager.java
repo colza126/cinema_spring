@@ -234,6 +234,27 @@ public class DbManager {
         }
     }
 
+
+    public void updateTokenT(String token_t)
+    {
+        
+
+        String query = "UPDATE utente SET token_conferma = ? WHERE token = ?";
+        String token = generateToken();
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, token);
+            stmt.setString(2, token_t);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
     public boolean registerUser(String mail, String pass)
     {
         if (userExists(mail)) {
@@ -328,7 +349,45 @@ public class DbManager {
         }
     }
 
+    public String getToken(String mail){
+        String query = "SELECT * FROM utente WHERE mail = ?";
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, mail);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("token_conferma");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "nessun account trovato";
+    }
+
     private String generateToken() {
         return convertToMD5("" + System.currentTimeMillis() + Math.random() * 1000);
     }
+    
+    public boolean modificaPassword(String password, String token) {
+        String query = "UPDATE utente SET password = ? WHERE token_conferma = ?";
+    
+        try (Connection conn = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, convertToMD5(password));
+            stmt.setString(2, token);
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            updateTokenT(token);
+            return rowsAffected > 0; // Restituisce true se almeno una riga è stata aggiornata
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;   
+        }
+    }
+    
 }

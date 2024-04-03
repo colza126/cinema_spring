@@ -56,7 +56,7 @@ $(document).ready(function () {
                 console.log('Request completed with status: ' + textStatus);
             },
             success: function (response) {
-                if(response == true){
+                if (response == true) {
                     window.location.href = "pages/elencoFilm.html";
                 }
             },
@@ -161,17 +161,36 @@ $(document).ready(function () {
                         success: function (response) {
                             alert(response.exists);
                             if (response === true) {
-                                token = response.token;
+
                                 $.ajax({
                                     type: 'POST',
-                                    url: 'mailConferma',
+                                    url: 'getToken',
                                     data: {
                                         mail: mailVal,
-                                        contenuto: "Per recuperare la tua password visita questo link: http://localhost:8080/pages/recuperoPw.php?token=" + token
                                     },
                                     //notifico l'invio degli errori
                                     success: function (response) {
-                                        alert("Mail inviata");
+                                        console.log("token preso");
+                                        token = response;
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: 'mailConferma',
+                                            data: {
+                                                mail: mailVal,
+                                                contenuto: "Per recuperare la tua password visita questo link: http://localhost:8080/pages/recuperoPw.html?token=" + token
+                                            },
+                                            //notifico l'invio degli errori
+                                            success: function (response) {
+                                                alert("Mail inviata");
+                                            },
+                                            //visualizzo eventuali errori
+                                            error: function (xhr, status, error) {
+                                                console.error(xhr.responseText);
+                                                console.error("Status: " + status);
+                                                console.error("Error: " + error);
+                                            }
+                                        });
                                     },
                                     //visualizzo eventuali errori
                                     error: function (xhr, status, error) {
@@ -179,7 +198,8 @@ $(document).ready(function () {
                                         console.error("Status: " + status);
                                         console.error("Error: " + error);
                                     }
-                                });
+                                }
+                                );
                             } else {
                                 //notifico se la mail none esiste
                                 alert("Mail non esistente");
